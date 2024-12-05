@@ -40,9 +40,16 @@ await client
 
 
 ### Get 1 user by id
+if we fetch item by id like `/entities/entity-id` the `get()` response should return the DbEntity, in all other cases 
+```
+{
+    value: DbEntity[];
+    "@odata.nextLink"?: string;
+}
+```
 
 ```typescript
-await client
+const user = await client
     .api(`/users/${userId}`)
     .select(['id', 'email'])
     .get()
@@ -60,6 +67,9 @@ const [user] = await client
 ```
 
 ### Get all deleted users
+
+`nextLink` is optional and depends on the quantity of items in DB, if it exceeds the limit is set by `top()`,
+it should be returned along with the value
 
 ```typescript
 const { value: users, ["@odata.nextLink"]: nextLink } = await client
@@ -102,6 +112,9 @@ await client
     .api(`/users/${userId}`)
     .update({ deleted: false })
 ```
+
+Note: The task is done if candidate implements all public methods of MockClient class, including `nextLink` support,
+filtering by `in` and `eq` operators, supporting different entities (not only users)
 
 ## Bonus task
 

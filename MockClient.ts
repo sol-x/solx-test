@@ -6,7 +6,7 @@ interface DbEntity {
 
 type ClientGetResponse =
 	| {
-	value: DbEntity;
+	value: DbEntity[];
 	"@odata.nextLink"?: string;
 }
 	| DbEntity;
